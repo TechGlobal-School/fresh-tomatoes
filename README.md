@@ -20,3 +20,7 @@
 - MONGODB (document)
 - Mongoose ODM (schema, model)
 - environment variables in Node apps
+
+### Day 2
+
+- CRUD
