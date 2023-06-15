@@ -10,7 +10,7 @@
 | /reviews/:id      | GET          | show    | Show a single review     | done   |
 | /reviews/:id/edit | GET          | edit    | See the edit review form | done   |
 | /reviews/:id      | PUT or PATCH | update  | Edit a single review     | done   |
-| /reviews/:id      | DELETE       | destroy | Delete a single review   |        |
+| /reviews/:id      | DELETE       | destroy | Delete a single review   | done   |
 
 ...
 
@@ -24,3 +24,9 @@
 ### Day 2
 
 - CRUD
+
+### Day 3
+
+- Cleanup
+- Bootstrap styling
+- Add test (finish testing by yourself)

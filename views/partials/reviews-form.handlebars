@@ -1,18 +1,36 @@
 <fieldset>
-    <legend>{{heading}}</legend>
-    <div>
-        <label for="title">Title</label>
-        <input type="text" id="title" name="title" value="{{review.title}}">
-    </div>
-    <div>
-        <label for="movieTitle">Movie Title</label>
-        <input type="text" id="movieTitle" name="movieTitle" value="{{review.movieTitle}}">
-    </div>
-    <div>
-        <label for="description">Description</label>
-        <input type="text" id="description" name="description" value="{{review.description}}">
-    </div>
-    <div>
-        <button type="submit">Submit</button>
-    </div>
+  <legend class="mb-3">{{heading}}</legend>
+  <div class="mb-3">
+    <label for="title" class="form-label">Title</label>
+    <input
+      type="text"
+      class="form-control"
+      id="title"
+      name="title"
+      value="{{review.title}}"
+    />
+  </div>
+  <div class="mb-3">
+    <label for="movieTitle" class="form-label">Movie Title</label>
+    <input
+      type="text"
+      class="form-control"
+      id="movieTitle"
+      name="movieTitle"
+      value="{{review.movieTitle}}"
+    />
+  </div>
+  <div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <input
+      type="text"
+      class="form-control"
+      id="description"
+      name="description"
+      value="{{review.description}}"
+    />
+  </div>
+  <div>
+    <button type="submit" class="btn btn-primary text-right">Submit</button>
+  </div>
 </fieldset>
