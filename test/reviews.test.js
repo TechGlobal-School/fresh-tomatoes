@@ -1,75 +1,114 @@
+// test-reviews.js
 const chai = require("chai");
 const chaiHttp = require("chai-http");
-const app = require("../server");
+const server = require("../server");
+const should = chai.should();
 const Review = require("../models/reviews");
+
+const sampleReview = {
+  title: "Super Sweet Review",
+  "movie-title": "La La Land",
+  description: "A great review of a lovely movie.",
+};
 
 chai.use(chaiHttp);
 
-const should = chai.should();
-const expect = chai.expect;
-
-// Ideally don't call actual API / Database - mock them or use worker threads
-
-// mock review
-const sampleReview = {
-  title: "Sample title",
-  movieTitle: "Sample movieTitle",
-  description: "Sample description",
-};
-
-describe("Reviews", function () {
-  after(function () {
-    // runs once after the last test in this block
-    Review.deleteMany({ title: "Sample title" })
-      .then(function () {
-        console.log("Data deleted"); // Success
-      })
-      .catch(function (error) {
-        console.log(error); // Failure
-      });
+describe("Reviews", () => {
+  after(() => {
+    Review.deleteMany({ title: "Super Sweet Review" }).exec((err, reviews) => {
+      reviews.remove();
+    });
   });
 
-  it("Warmup test", () => {
-    should.equal(undefined);
-  });
-  it("Test get all reviews", (done) => {
+  // TEST INDEX
+  it("should index ALL reviews on / GET", (done) => {
     chai
-      .request(app)
+      .request(server)
       .get("/")
       .end((err, res) => {
-        // res.should.to.be.html;
-        // res.should.to.have.status(200);
-        expect(res).to.be.html;
-        expect(res).to.have.status(200);
+        res.should.have.status(200);
+        res.should.be.html;
         done();
       });
   });
-  // Get add review form - easy
-  //    --------- your code
-  //  Create a review
-  const review = new Review(sampleReview);
-
-  it("Test create a review", (done) => {
-    review.save().then((err, data) => {
+  // TEST NEW
+  it("should display new form on /reviews/new GET", (done) => {
+    chai
+      .request(server)
+      .get(`/reviews/new`)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.should.be.html;
+        done();
+      });
+  });
+  // TEST SHOW
+  it("should show a SINGLE review on /reviews/<id> GET", (done) => {
+    var review = new Review(sampleReview);
+    review.save((err, data) => {
       chai
-        .request(app)
-        .post("/reviews")
+        .request(server)
+        .get(`/reviews/${data._id}`)
         .end((err, res) => {
-          res.should.to.be.html;
-          res.should.to.have.status(200);
+          res.should.have.status(200);
+          res.should.be.html;
           done();
         });
     });
   });
-
-  // FINISH UP AT LEAST COUPLE TESTS
-
-  // Show a single review
-  //    --------- your code
-  // Get edit form
-  //    --------- your code
-  // Edit a single review
-  //    --------- your code
-  // Delete a single review
-  //    --------- your code
+  // TEST EDIT
+  it("should edit a SINGLE review on /reviews/<id>/edit GET", (done) => {
+    var review = new Review(sampleReview);
+    review.save((err, data) => {
+      chai
+        .request(server)
+        .get(`/reviews/${data._id}/edit`)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.html;
+          done();
+        });
+    });
+  });
+  // TEST CREATE
+  it("should create a SINGLE review on /reviews POST", (done) => {
+    chai
+      .request(server)
+      .post("/reviews")
+      .send(sampleReview)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.should.be.html;
+        done();
+      });
+  });
+  // TEST UPDATE
+  it("should update a SINGLE review on /reviews/<id> PUT", (done) => {
+    var review = new Review(sampleReview);
+    review.save((err, data) => {
+      chai
+        .request(server)
+        .put(`/reviews/${data._id}?_method=PUT`)
+        .send({ title: "Updating the title" })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.html;
+          done();
+        });
+    });
+  });
+  // TEST DELETE
+  it("should delete a SINGLE review on /reviews/<id> DELETE", (done) => {
+    var review = new Review(sampleReview);
+    review.save((err, data) => {
+      chai
+        .request(server)
+        .delete(`/reviews/${data._id}?_method=DELETE`)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.html;
+          done();
+        });
+    });
+  });
 });
