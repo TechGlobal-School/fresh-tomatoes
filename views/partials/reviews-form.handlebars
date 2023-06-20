@@ -5,6 +5,7 @@
     <input
       type="text"
       class="form-control"
+      required
       id="title"
       name="title"
       value="{{review.title}}"
@@ -15,6 +16,7 @@
     <input
       type="text"
       class="form-control"
+      required
       id="movieTitle"
       name="movieTitle"
       value="{{review.movieTitle}}"
@@ -22,13 +24,12 @@
   </div>
   <div class="mb-3">
     <label for="description" class="form-label">Description</label>
-    <input
-      type="text"
+    <textarea
       class="form-control"
       id="description"
       name="description"
-      value="{{review.description}}"
-    />
+      rows="8"
+    >{{review.description}}</textarea>
   </div>
   <div>
     <button type="submit" class="btn btn-primary text-right">Submit</button>

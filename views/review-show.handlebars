@@ -1,4 +1,4 @@
-<div class="card" style="width: 18rem;">
+<div class="card mb-4" style="width: 18rem;">
   <div class="card-body">
     <h5 class="card-title">{{review.title}}</h5>
     <h6
@@ -24,9 +24,17 @@
     </div>
   </div>
 </div>
-{{!-- 
-<a href="/reviews/{{review._id}}/edit">Edit</a>
 
-<form action="/reviews/{{review._id}}?_method=DELETE" method="POST">
-  <button type="submit">Delete</button>
-</form> --}}
+{{>comments-form}}
+
+{{!-- All comments for this review--}}
+<div>
+  {{#each comments}}
+    <div>
+      <h5>{{this.title}}</h5>
+      <p>{{this.content}}</p>
+      {{! improve this - check above code for example}}
+      <button>Delete</button>
+    </div>
+  {{/each}}
+</div>

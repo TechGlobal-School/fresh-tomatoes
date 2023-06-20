@@ -1,4 +1,5 @@
 const Review = require("../models/reviews");
+const Comments = require("../models/comments");
 
 module.exports = function (app) {
   app.get("/", (req, res) => {
@@ -32,11 +33,27 @@ module.exports = function (app) {
   // Show a single review
   app.get("/reviews/:id", (req, res) => {
     const reviewId = req.params.id;
+
+    // --- Good example for Promise.all() ----
+    // const promise1 = Review.findById(reviewId).lean();
+    // const promise2 = Comments.find({}).lean();
+    // Promise.all([promise1, promise2])
+    //   .then((values) => {
+    //     res.render("review-show", { review: values[0], comments: values[1] });
+    //     console.log(values);
+    //   })
+    //   .catch((err) => console.log(err));
+
     Review.findById(reviewId)
       .lean()
       .then((review) => {
-        // console.log("review", review);
-        res.render("review-show", { review: review });
+        Comments.find({ reviewId: review._id })
+          .lean()
+          .then((comments) => {
+            // console.log("review", review);
+            // console.log("comments", comments);
+            res.render("review-show", { review: review, comments: comments });
+          });
       })
       .catch((err) => console.log(err));
   });

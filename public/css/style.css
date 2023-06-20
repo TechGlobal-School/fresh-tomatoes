@@ -2,3 +2,8 @@
 .col {
   border: 1px solid;
 }
+
+.description {
+  height: 100px;
+  background-color: aqua;
+}

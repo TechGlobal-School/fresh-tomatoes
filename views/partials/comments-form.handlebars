@@ -1,0 +1,32 @@
+<h3>Add Comment</h3>
+
+<div class="card mb-4" style="width: 18rem;">
+  <form action="/review/comments" method="POST" class="p-3">
+    <input type="text" value={{review._id}} name="reviewId" hidden />
+    <div>
+
+      <label for="title" class="form-label">Title</label>
+      <input
+        type="text"
+        class="form-control"
+        required
+        id="title"
+        name="title"
+        value=""
+      />
+    </div>
+    <div class="mb-2">
+      <label for="content" class="form-label">Content</label>
+      <textarea
+        class="form-control"
+        id="content"
+        name="content"
+        rows="5"
+      ></textarea>
+    </div>
+
+    <div>
+      <button type="submit" class="btn btn-primary right">Submit</button>
+    </div>
+  </form>
+</div>

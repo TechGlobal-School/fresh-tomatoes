@@ -25,6 +25,7 @@ app.set("views", "./views");
 // Routes
 // app.use("/", reviewsRoutes); Approach 1
 require("./controller/reviews")(app); // function
+require("./controller/comments")(app); // function
 
 // Listen
 const PORT = process.env.PORT || 5001;
