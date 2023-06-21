@@ -1,5 +1,6 @@
 const Review = require("../models/reviews");
 const Comments = require("../models/comments");
+const {DateTime} = require('luxon')
 
 module.exports = function (app) {
   app.get("/", (req, res) => {
@@ -50,7 +51,11 @@ module.exports = function (app) {
         Comments.find({ reviewId: review._id })
           .lean()
           .then((comments) => {
-            // console.log("review", review);
+             console.log("review", review);
+            //TODO: const dt = DateTime.fromISO(review.createdAt.toString());
+            const dt = review.createdAt.toString().slice(0,10)
+            console.log(dt);
+            review.createdAt = dt;
             // console.log("comments", comments);
             res.render("review-show", { review: review, comments: comments });
           });

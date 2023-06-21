@@ -26,9 +26,10 @@ app.set("views", "./views");
 // app.use("/", reviewsRoutes); Approach 1
 require("./controller/reviews")(app); // function
 require("./controller/comments")(app); // function
+require("./controller/auth")(app);
 
 // Listen
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5005;
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
 });
