@@ -48,3 +48,10 @@
 - Save comment to database and then redirect to same review page
 - Show comments
 - Delete comment => /review/
+
+
+### Day 6
+- TODO: timestamp format, footer, password hash not working
+- Add login, sign-up and logout links to navbar
+- Signup view, controller, model
+- Login (user authorized???) (JWT - secret token, cookie -> send this token on every request)
