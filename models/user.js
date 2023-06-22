@@ -1,25 +1,32 @@
-const mongoose = require('mongoose')
-const bcrypt = require('bcryptjs');
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const { Schema } = mongoose;
-const userSchema = new Schema({
-  username: { type: String, required: true},
-  password: { type: String, required: true}
-},{timestamps: true});
+const userSchema = new Schema(
+  {
+    username: { type: String, required: true },
+    password: { type: String, required: true },
+  },
+  { timestamps: true }
+);
 
-// userSchema.pre('save', function(next) {
-//         // encrypt users password
-//         const user = this;
-//     // check if user password not modified
-//     if(!user.isModified('password')) return next();
+// Encrypt user password before saving it to DB
+userSchema.pre("save", function (next) {
+  // const user = this;
+  if (!this.isModified("password")) {
+    return next();
+  }
+  // sync solution
+  // const salt = bcrypt.genSalt(10);
+  // const hash = bcrypt.hash(this.password, salt);
+  // this.password = hash;
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(this.password, salt, (_, hash) => {
+      this.password = hash;
+      next();
+    });
+  });
+});
 
-//     bcrypt.getSalt(10, function(err, salt) {
-//         bcrypt.hash(user.password, salt, function(err, hash) {
-//             user.password = hash;
-//             next();
-//         })
-//     })
-// });
-
-const User = mongoose.model("User",userSchema );
+const User = mongoose.model("User", userSchema);
 module.exports = User;

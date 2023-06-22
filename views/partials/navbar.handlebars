@@ -13,15 +13,22 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarColor01">
-      <ul class="navbar-nav me-auto">
+      <ul class="navbar-nav me-auto pull-right">
         {{! this will push add review to right }}
-        <li><a href="/sign-up">SignUp</a></li>
-        <li><a href="/login">LogIn</a></li>
-        <li><a href="/logout">LogOut</a></li>
+        {{#if currentUser}}
+          <li><a href="/logout">LogOut</a></li>
+        {{else}}
+          <li><a href="/sign-up">SignUp</a></li>
+          <li><a href="/login">LogIn</a></li>
+        {{/if}}
+
       </ul>
-      <button type="button" class="btn btn-light">
-        <a href="/reviews/new" class="text-dark text-decoration-none">Add Review</a>
-      </button>
+      {{#if currentUser}}
+        <button type="button" class="btn btn-light">
+          <a href="/reviews/new" class="text-dark text-decoration-none">Add
+            Review</a>
+        </button>
+      {{/if}}
     </div>
 
   </div>

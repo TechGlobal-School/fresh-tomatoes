@@ -1,13 +1,24 @@
 const Review = require("../models/reviews");
 const Comments = require("../models/comments");
-const {DateTime} = require('luxon')
+
+// const { DateTime } = require("luxon");
+
+// store current user
+// send this user to client
+// from client check if current user exists
+// depending show button
 
 module.exports = function (app) {
   app.get("/", (req, res) => {
+    // console.log("req.user", req.user);
+    const currentUser = req.user;
     Review.find()
       .lean()
       .then((reviews) => {
-        res.render("reviews-index", { reviews: reviews });
+        res.render("reviews-index", {
+          reviews: reviews,
+          currentUser: currentUser,
+        });
       })
       .catch((err) => console.log("err", err));
   });
@@ -34,7 +45,9 @@ module.exports = function (app) {
   // Show a single review
   app.get("/reviews/:id", (req, res) => {
     const reviewId = req.params.id;
+    const currentUser = req.user;
 
+    console.log("currentUser", currentUser);
     // --- Good example for Promise.all() ----
     // const promise1 = Review.findById(reviewId).lean();
     // const promise2 = Comments.find({}).lean();
@@ -51,13 +64,16 @@ module.exports = function (app) {
         Comments.find({ reviewId: review._id })
           .lean()
           .then((comments) => {
-             console.log("review", review);
             //TODO: const dt = DateTime.fromISO(review.createdAt.toString());
-            const dt = review.createdAt.toString().slice(0,10)
-            console.log(dt);
+            const dt = review.createdAt.toString().slice(0, 10);
+            // console.log(dt);
             review.createdAt = dt;
             // console.log("comments", comments);
-            res.render("review-show", { review: review, comments: comments });
+            res.render("review-show", {
+              review: review,
+              comments: comments,
+              currentUser: currentUser,
+            });
           });
       })
       .catch((err) => console.log(err));
